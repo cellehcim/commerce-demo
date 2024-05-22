@@ -1,10 +1,4 @@
 package com.cellehcim.commercedemo;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import com.commercetools.api.models.cart.LineItemDraft;
-
 public class CartDetails {
 
     private String countryCode;
