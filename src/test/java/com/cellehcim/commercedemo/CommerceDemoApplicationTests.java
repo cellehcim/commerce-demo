@@ -1,11 +1,5 @@
 package com.cellehcim.commercedemo;
 
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.json.JSONObject;
@@ -132,7 +126,7 @@ class CommerceDemoApplicationTests {
 		requestParams.put("countryCode", "US"); 
 
 		JSONArray lineItemsJson = new JSONArray();
-		lineItemsJson.put("arg-56");
+		lineItemsJson.put("ARG-56");
 		requestParams.put("lineItemSkus", lineItemsJson);
 
 		request.header("Content-Type", "application/json");
@@ -162,7 +156,7 @@ class CommerceDemoApplicationTests {
 		requestParams.put("countryCode", "US"); 
 
 		JSONArray lineItemsJson = new JSONArray();
-		lineItemsJson.put("arg-56");
+		lineItemsJson.put("ARG-56");
 		lineItemsJson.put("ADCT-01");
 		requestParams.put("lineItemSkus", lineItemsJson);
 
@@ -179,6 +173,61 @@ class CommerceDemoApplicationTests {
 		// product names for the line item skus included
 		assertThat(bodyString).contains("Ashen Rug", "Coffee Table");
 
+	}
+
+	@Test
+	void createCartWithAnInvalidSku() throws Exception {
+
+		RestAssured.baseURI = ENDPOINT_URL; 
+		RequestSpecification request = RestAssured.given();
+
+
+		JSONObject requestParams = new JSONObject(); 
+		requestParams.put("currency", "USD"); 
+		requestParams.put("countryCode", "US"); 
+
+		JSONArray lineItemsJson = new JSONArray();
+		lineItemsJson.put("arg-56");
+		lineItemsJson.put("ADCT");
+		requestParams.put("lineItemSkus", lineItemsJson);
+
+		request.header("Content-Type", "application/json");
+		request.body(requestParams.toString());
+		
+		Response response = request.post(""); 
+		int statusCode = response.getStatusCode(); 
+
+		assertThat(statusCode).isEqualTo(404);
+	}
+
+	@Test
+	void createCartWithEveryParamInLowercase() throws Exception {
+
+		RestAssured.baseURI = ENDPOINT_URL; 
+		RequestSpecification request = RestAssured.given();
+
+
+		JSONObject requestParams = new JSONObject(); 
+		requestParams.put("currency", "usd"); 
+		requestParams.put("countryCode", "us"); 
+
+		JSONArray lineItemsJson = new JSONArray();
+		lineItemsJson.put("arg-56");
+		lineItemsJson.put("adct-01");
+		requestParams.put("lineItemSkus", lineItemsJson);
+
+		request.header("Content-Type", "application/json");
+		request.body(requestParams.toString());
+		
+		Response response = request.post(""); 
+		int statusCode = response.getStatusCode(); 
+
+		assertThat(statusCode).isEqualTo(200);
+
+		String bodyString = response.getBody().asString();
+
+		// product names for the line item skus included
+		assertThat(bodyString).contains("Ashen Rug", "Coffee Table");
 	}
 
 }
