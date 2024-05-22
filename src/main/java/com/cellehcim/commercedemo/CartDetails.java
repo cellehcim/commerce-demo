@@ -20,15 +20,15 @@ public class CartDetails {
     @NotBlank(message = "The currency code must be included as a three-digit ISO 4217 currency code")
     @Size(min = 3, max = 3, message = "The currency code must be exactly three-digits")
     private String currency;
-
-    private String[] lineItemSkus;
-
     private List<LineItemDraft> lineItems;
 
     public CartDetails(String countryCode, String currency, String[] lineItemSkus) {
         this.countryCode = countryCode.toUpperCase();
         this.currency = currency.toUpperCase();
-        this.lineItems = createLineItems(lineItemSkus);
+
+        if (lineItemSkus != null) {
+            this.lineItems = createLineItems(lineItemSkus);
+        }
     }
 
     public String getCountryCode() {
@@ -45,14 +45,6 @@ public class CartDetails {
 
     public void setCurrency(String currency) {
         this.currency = currency;
-    }
-
-    public String[] getLineItemSkus() {
-        return lineItemSkus;
-    }
-
-    public void setLineItemSkus(String[] lineItemSkus) {
-        this.lineItemSkus = lineItemSkus;
     }
 
     public List<LineItemDraft> getLineItems() {

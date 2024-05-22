@@ -21,12 +21,11 @@ public class CartHelperMethods {
         Dotenv dotenv = Dotenv.load();
 
         final ProjectApiRoot apiRoot = ApiRootBuilder.of()
-        .defaultClient(ClientCredentials.of()
+                .defaultClient(ClientCredentials.of()
                 .withClientId(dotenv.get("CTP_CLIENT_ID"))
                 .withClientSecret(dotenv.get("CTP_CLIENT_SECRET"))
-                .build(),
-        COMMERCETOOLS_REGION)
-        .build(dotenv.get("CTP_PROJECT_KEY"));
+                .build(), COMMERCETOOLS_REGION)
+                .build(dotenv.get("CTP_PROJECT_KEY"));
 
         return apiRoot;
     }
