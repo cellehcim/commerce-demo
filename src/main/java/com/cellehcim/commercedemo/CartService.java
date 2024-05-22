@@ -24,12 +24,12 @@ public class CartService {
             List<LineItemDraft> lineItemArrayList = CartHelperMethods.createLineItems(cartDetails.getLineItemSkus());
 
             if (lineItemArrayList.size() > 0) {
-                return cartDao.createCartWithLineItems(lineItemArrayList);
+                return cartDao.createCartWithLineItems(lineItemArrayList, cartDetails);
             } else {
-                return cartDao.createEmptyCart();
+                return cartDao.createEmptyCart(cartDetails);
             }
         } else {
-            return cartDao.createEmptyCart();
+            return cartDao.createEmptyCart(cartDetails);
         }
     }
 }

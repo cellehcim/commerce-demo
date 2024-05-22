@@ -7,7 +7,16 @@ public class CartDetails {
 
     public CartDetails() {}
 
-    public CartDetails(String countryCode, String currency, String[] lineItemSkus) {
+    public CartDetails(String countryCode, String currency, String[] lineItemSkus) throws IllegalArgumentException {
+
+        if (currency == null) {
+            throw new IllegalArgumentException("Currency code can't be null!");
+        }
+
+        if (countryCode == null) {
+            throw new IllegalArgumentException("Country code can't be null!");
+        }
+
         this.countryCode = countryCode;
         this.currency = currency;
         this.lineItemSkus = lineItemSkus;

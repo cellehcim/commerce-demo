@@ -11,9 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class CartDao {
 
-    private static final String DEFAULT_CURRENCY = "USD";
-    private static final String DEFAULT_COUNTRY = "US";
-
     public Cart findCartById(String cartId) {
         ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
         Cart response = apiRoot.carts().withId(cartId).get().executeBlocking().getBody();
@@ -21,24 +18,17 @@ public class CartDao {
         return response;
     }
 
-    public Cart createEmptyCart() {
+    public Cart createEmptyCart(CartDetails cartDetails) {
         ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
-        CartDraft newCartDraft = CartDraft.builder().currency(DEFAULT_CURRENCY).build();
+        CartDraft newCartDraft = CartHelperMethods.createCartDraftObject(apiRoot, cartDetails);
 
         return CartHelperMethods.createCartObject(apiRoot, newCartDraft);
      }
 
-    public Cart createEmptyCart(String currency) {
+    public Cart createCartWithLineItems(List<LineItemDraft> lineItemArrayList, CartDetails cartDetails) throws RuntimeException {
         ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
-        CartDraft newCartDraft = CartDraft.builder().currency(currency).build();
+        CartDraft newCartDraft = CartHelperMethods.createCartDraftObject(apiRoot, cartDetails, lineItemArrayList);
 
-        return CartHelperMethods.createCartObject(apiRoot, newCartDraft);
-    }
-
-    public Cart createCartWithLineItems(List<LineItemDraft> lineItemArrayList) throws RuntimeException {
-        ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
-        CartDraft newCartDraft = CartDraft.builder().country(DEFAULT_COUNTRY).currency(DEFAULT_CURRENCY).lineItems(lineItemArrayList).build();
-        
         return apiRoot.carts().post(newCartDraft).executeBlocking().getBody();
     }
 }

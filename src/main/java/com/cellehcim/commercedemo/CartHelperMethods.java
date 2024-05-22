@@ -42,10 +42,13 @@ public class CartHelperMethods {
         return lineItemArrayList;
     }
 
-    /**
-     * public static Cart createCartDraftObject(ProjectApiRoot apiRoot, CartDetails cartDetails) {
+    public static CartDraft createCartDraftObject(ProjectApiRoot apiRoot, CartDetails cartDetails) {
+        return CartDraft.builder().country(cartDetails.getCountryCode()).currency(cartDetails.getCurrency()).build();
+    }
 
-    }*/
+    public static CartDraft createCartDraftObject(ProjectApiRoot apiRoot, CartDetails cartDetails, List<LineItemDraft> lineItemArrayList) {
+        return CartDraft.builder().country(cartDetails.getCountryCode()).currency(cartDetails.getCurrency()).lineItems(lineItemArrayList).build();
+    }
 
     public static Cart createCartObject(ProjectApiRoot apiRoot, CartDraft cartDraft) {
         return apiRoot.carts().post(cartDraft).executeBlocking().getBody();
