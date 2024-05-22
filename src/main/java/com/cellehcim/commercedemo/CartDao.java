@@ -3,9 +3,6 @@ package com.cellehcim.commercedemo;
 import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.cart.Cart;
 import com.commercetools.api.models.cart.CartDraft;
-import com.commercetools.api.models.cart.LineItemDraft;
-
-import java.util.List;
 
 import org.springframework.stereotype.Component;
 @Component
@@ -31,7 +28,7 @@ public class CartDao {
 
     public Cart createEmptyCart(CartDetails cartDetails) {
         ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
-        CartDraft newCartDraft = CartHelperMethods.createCartDraftObject(apiRoot, cartDetails);
+        CartDraft newCartDraft = CartHelperMethods.createCartDraftObject(apiRoot, cartDetails, false);
 
         return createCartObject(apiRoot, newCartDraft);
      }
@@ -43,9 +40,9 @@ public class CartDao {
      * @return a cart with the specified currency code, country code, and line items from the array.
      */
 
-    public Cart createCartWithLineItems(List<LineItemDraft> lineItemArrayList, CartDetails cartDetails) throws RuntimeException {
+    public Cart createCartWithLineItems(CartDetails cartDetails) throws RuntimeException {
         ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
-        CartDraft newCartDraft = CartHelperMethods.createCartDraftObject(apiRoot, cartDetails, lineItemArrayList);
+        CartDraft newCartDraft = CartHelperMethods.createCartDraftObject(apiRoot, cartDetails, true);
 
         return createCartObject(apiRoot, newCartDraft);
     }

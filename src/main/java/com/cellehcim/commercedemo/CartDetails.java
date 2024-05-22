@@ -1,5 +1,10 @@
 package com.cellehcim.commercedemo;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.commercetools.api.models.cart.LineItemDraft;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -21,10 +26,12 @@ public class CartDetails {
 
     private String[] lineItemSkus;
 
+    private List<LineItemDraft> lineItems;
+
     public CartDetails(String countryCode, String currency, String[] lineItemSkus) {
         this.countryCode = countryCode;
         this.currency = currency;
-        this.lineItemSkus = lineItemSkus;
+        this.lineItems = createLineItems(lineItemSkus);
     }
 
     public String getCountryCode() {
@@ -49,6 +56,31 @@ public class CartDetails {
 
     public void setLineItemSkus(String[] lineItemSkus) {
         this.lineItemSkus = lineItemSkus;
+    }
+
+    public List<LineItemDraft> getLineItems() {
+        return lineItems;
+    }
+
+    public void setLineItems(List<LineItemDraft> lineItems) {
+        this.lineItems = lineItems;
+    }
+
+    /**
+     * Creates a List of LineItemDraft objects from a list of those objects' SKUs.
+     * @param lineItemProductSkus - a list of correctly-entered character-for-character line item product SKUs.
+     * @return a List of LineItemDraftObjects containing the SKUs from lineItemProductSkus.
+     */
+
+    public static List<LineItemDraft> createLineItems(String[] lineItemProductSkus) {
+        List<LineItemDraft> lineItemArrayList = new ArrayList<LineItemDraft>();
+
+        for (String sku : lineItemProductSkus) {
+            LineItemDraft lineItem = LineItemDraft.builder().sku(sku).build();
+            lineItemArrayList.add(lineItem);
+        }
+
+        return lineItemArrayList;
     }
     
 }
