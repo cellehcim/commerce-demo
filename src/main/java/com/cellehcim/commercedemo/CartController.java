@@ -1,7 +1,6 @@
 package com.cellehcim.commercedemo;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.commercetools.api.models.cart.Cart;
@@ -10,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -26,16 +26,15 @@ public class CartController {
     }
 
     @PostMapping()
-    public Cart createCartWithoutCurrencyCode(@RequestParam(name="lineItemProductIds", required=false) String[] lineItems) {
-        if (lineItems != null) {
-            return cartService.createCartWithLineItems(lineItems);
+    public Cart createCart(@RequestBody CartDetails cartDetails) {
+        
+        String[] lineItemSkus = cartDetails.getLineItemSkus();
+        System.out.println("PASS");
+        
+        if (lineItemSkus != null) {
+            return cartService.createCartWithLineItems(lineItemSkus);
         } else {
             return cartService.createEmptyCart();
         }
-    }
-    
-    @PostMapping(params={"currency"})
-    public Cart createCartWithCurrencyCodeRequestParam(@RequestParam(name="lineItemProductIds", required=false) String[] lineItems, @RequestParam(name="currency") String currency) {    
-        return cartService.createEmptyCart(currency);
     }
 }

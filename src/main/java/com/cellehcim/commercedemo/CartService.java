@@ -78,8 +78,8 @@ public class CartService {
     public List<LineItemDraft> createLineItems(String[] lineItemProductSkus) {
         List<LineItemDraft> lineItemArrayList = new ArrayList<LineItemDraft>();
 
-        for (String id : lineItemProductSkus) {
-            LineItemDraft lineItem = LineItemDraft.builder().sku(id).build();
+        for (String sku : lineItemProductSkus) {
+            LineItemDraft lineItem = LineItemDraft.builder().sku(sku).build();
             lineItemArrayList.add(lineItem);
         }
 
