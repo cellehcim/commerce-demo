@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.commercetools.api.models.cart.Cart;
 
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +40,7 @@ public class CartController {
      */
 
     @PostMapping()
-    public Cart createCart(@RequestBody CartDetails cartDetails) {
+    public Cart createCart(@Valid @RequestBody CartDetails cartDetails) {
         return cartService.createCart(cartDetails);
     }
 }
