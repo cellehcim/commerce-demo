@@ -15,7 +15,6 @@ public class CartService {
     private static final String DEFAULT_CURRENCY = "USD";
     private static final String DEFAULT_COUNTRY = "US";
 
-
     public Cart findCartById(String cartId) {
         ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
         Cart response = null;
@@ -23,6 +22,16 @@ public class CartService {
         response = apiRoot.carts().withId(cartId).get().executeBlocking().getBody();
 
         return response;
+    }
+
+    public Cart createCart(CartDetails cartDetails) {
+        List<LineItemDraft> lineItemArrayList = CartHelperMethods.createLineItems(cartDetails.getLineItemSkus());
+
+        if (lineItemArrayList != null) {
+            return createCartWithLineItems(lineItemArrayList);
+        } else {
+            return createEmptyCart();
+        }
     }
 
     public Cart createEmptyCart() {
@@ -42,10 +51,8 @@ public class CartService {
         return apiRoot.carts().post(cartDraft).executeBlocking().getBody();
     }
 
-    public Cart createCartWithLineItems(String[] lineItemSkus) throws RuntimeException {
+    public Cart createCartWithLineItems(List<LineItemDraft> lineItemArrayList) throws RuntimeException {
         ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
-
-        List<LineItemDraft> lineItemArrayList = CartHelperMethods.createLineItems(lineItemSkus);
 
         CartDraft newCartDraft = CartDraft.builder().country(DEFAULT_COUNTRY).currency(DEFAULT_CURRENCY).lineItems(lineItemArrayList).build();
         return apiRoot.carts().post(newCartDraft).executeBlocking().getBody();

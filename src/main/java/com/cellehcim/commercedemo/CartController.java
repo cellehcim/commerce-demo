@@ -27,14 +27,6 @@ public class CartController {
 
     @PostMapping()
     public Cart createCart(@RequestBody CartDetails cartDetails) {
-        
-        String[] lineItemSkus = cartDetails.getLineItemSkus();
-        System.out.println("PASS");
-        
-        if (lineItemSkus != null) {
-            return cartService.createCartWithLineItems(lineItemSkus);
-        } else {
-            return cartService.createEmptyCart();
-        }
+        return cartService.createCart(cartDetails);
     }
 }
