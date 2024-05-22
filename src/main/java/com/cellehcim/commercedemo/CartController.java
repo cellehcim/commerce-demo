@@ -26,12 +26,16 @@ public class CartController {
     }
 
     @PostMapping()
-    public Cart createCartWithoutCurrencyCode() {
-        return cartService.createCart();
+    public Cart createCartWithoutCurrencyCode(@RequestParam(name="lineItemProductIds", required=false) String[] lineItems) {
+        if (lineItems != null) {
+            return cartService.createCartWithLineItems(lineItems);
+        } else {
+            return cartService.createEmptyCart();
+        }
     }
     
     @PostMapping(params={"currency"})
-    public Cart createCartWithCurrencyCodeRequestParam(@RequestParam(name="currency") String currency) {    
-        return cartService.createCart(currency);
+    public Cart createCartWithCurrencyCodeRequestParam(@RequestParam(name="lineItemProductIds", required=false) String[] lineItems, @RequestParam(name="currency") String currency) {    
+        return cartService.createEmptyCart(currency);
     }
 }
