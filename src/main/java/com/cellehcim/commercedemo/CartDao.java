@@ -13,22 +13,25 @@ public class CartDao {
 
     public Cart findCartById(String cartId) {
         ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
-        Cart response = apiRoot.carts().withId(cartId).get().executeBlocking().getBody();
 
-        return response;
+        return apiRoot.carts().withId(cartId).get().executeBlocking().getBody();
     }
 
     public Cart createEmptyCart(CartDetails cartDetails) {
         ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
         CartDraft newCartDraft = CartHelperMethods.createCartDraftObject(apiRoot, cartDetails);
 
-        return CartHelperMethods.createCartObject(apiRoot, newCartDraft);
+        return createCartObject(apiRoot, newCartDraft);
      }
 
     public Cart createCartWithLineItems(List<LineItemDraft> lineItemArrayList, CartDetails cartDetails) throws RuntimeException {
         ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
         CartDraft newCartDraft = CartHelperMethods.createCartDraftObject(apiRoot, cartDetails, lineItemArrayList);
 
-        return apiRoot.carts().post(newCartDraft).executeBlocking().getBody();
+        return createCartObject(apiRoot, newCartDraft);
+    }
+
+    public static Cart createCartObject(ProjectApiRoot apiRoot, CartDraft cartDraft) {
+        return apiRoot.carts().post(cartDraft).executeBlocking().getBody();
     }
 }
