@@ -18,10 +18,6 @@ class CommerceDemoApplicationTests {
 	private final String ENDPOINT_URL = "http://localhost:8080/api/v1/carts";
 
 	@Test
-	void contextLoads() {
-	}
-
-	@Test
 	void getExistingCart() throws Exception {
 		String validCartId = "0cf86224-25f2-4e30-af5c-d91602a4f6bd";
 		RestAssured.baseURI = ENDPOINT_URL;
@@ -85,7 +81,6 @@ class CommerceDemoApplicationTests {
 
 		String bodyString = response.getBody().asString();
 		assertThat(bodyString).contains("\"lineItems\":[]");
-
 	}
 
 	@Test
@@ -93,7 +88,6 @@ class CommerceDemoApplicationTests {
 
 		RestAssured.baseURI = ENDPOINT_URL; 
 		RequestSpecification request = RestAssured.given();
-
 
 		JSONObject requestParams = new JSONObject(); 
 		requestParams.put("currency", "USD"); 
@@ -120,7 +114,6 @@ class CommerceDemoApplicationTests {
 		RestAssured.baseURI = ENDPOINT_URL; 
 		RequestSpecification request = RestAssured.given();
 
-
 		JSONObject requestParams = new JSONObject(); 
 		requestParams.put("currency", "USD"); 
 		requestParams.put("countryCode", "US"); 
@@ -141,7 +134,6 @@ class CommerceDemoApplicationTests {
 
 		// product name for the line item sku arg-56
 		assertThat(bodyString).contains("Ashen Rug");
-
 	}
 
 	@Test
@@ -172,7 +164,6 @@ class CommerceDemoApplicationTests {
 
 		// product names for the line item skus included
 		assertThat(bodyString).contains("Ashen Rug", "Coffee Table");
-
 	}
 
 	@Test
