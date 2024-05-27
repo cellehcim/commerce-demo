@@ -34,7 +34,7 @@ public class CartController {
     }
 
     /**
-     * Creates a cart object given a country code, currency code, and product SKUs.
+     * Creates a cart object given a country code, currency code, and line item information.
      * @param cartDetails - response body containing our cart creation information.
      * @return - cart information if we can successfully create the corresponding cart, error if otherwise.
      */

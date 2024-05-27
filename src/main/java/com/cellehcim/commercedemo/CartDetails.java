@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.commercetools.api.models.cart.LineItemDraft;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -22,12 +23,12 @@ public class CartDetails {
     private String currency;
     private List<LineItemDraft> lineItems;
 
-    public CartDetails(String countryCode, String currency, String[] lineItemSkus) {
+    public CartDetails(String countryCode, String currency, @Valid List<LineItemDetail> lineItemDetails) {
         this.countryCode = countryCode.toUpperCase();
         this.currency = currency.toUpperCase();
 
-        if (lineItemSkus != null) {
-            this.lineItems = createLineItems(lineItemSkus);
+        if (lineItemDetails != null) {
+            this.lineItems = createLineItems(lineItemDetails);
         }
     }
 
@@ -56,16 +57,21 @@ public class CartDetails {
     }
 
     /**
-     * Creates a List of LineItemDraft objects from a list of those objects' SKUs.
-     * @param lineItemProductSkus - a list of correctly-entered character-for-character line item product SKUs.
+     * Creates a List of LineItemDraft objects from a list of the corresponding details (SKU and quantity).
+     * @param lineItemDetail - a HashMap of correctly-entered character-for-character line item product SKUs, along with their (non-zero and non-negative) quantities.
      * @return a List of LineItemDraftObjects containing the SKUs from lineItemProductSkus.
      */
 
-    public static List<LineItemDraft> createLineItems(String[] lineItemProductSkus) {
+    public static List<LineItemDraft> createLineItems(List<LineItemDetail> lineItemDetails) {
         List<LineItemDraft> lineItemArrayList = new ArrayList<LineItemDraft>();
 
-        for (String sku : lineItemProductSkus) {
-            LineItemDraft lineItem = LineItemDraft.builder().sku(sku.toUpperCase()).build();
+        for (LineItemDetail entry : lineItemDetails) {
+
+            LineItemDraft lineItem = LineItemDraft.builder()
+                .sku(entry.getSku()
+                .toUpperCase())
+                .quantity(entry.getQuantity())
+                .build();
             lineItemArrayList.add(lineItem);
         }
 
