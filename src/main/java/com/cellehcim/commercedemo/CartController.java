@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.commercetools.api.models.cart.Cart;
 
 import jakarta.validation.Valid;
+import reactor.core.publisher.Mono;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,11 +26,11 @@ public class CartController {
     /**
      * Returns the cart information for a given Commercetools cart ID.
      * @param cartId - ID of the cart that we want information from.
-     * @return - cart if it exists, error otherwise.
+     * @return - A Mono containing a cart if it exists, error otherwise.
      */
 
     @GetMapping("/{cartId}")
-    public Cart findCartById(@PathVariable String cartId) {
+    public Mono<Cart> findCartById(@PathVariable String cartId) {
         return cartService.findCartById(cartId);
     }
 

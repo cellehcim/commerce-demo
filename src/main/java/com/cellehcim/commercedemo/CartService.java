@@ -2,6 +2,8 @@ package com.cellehcim.commercedemo;
 
 import com.commercetools.api.models.cart.Cart;
 
+import reactor.core.publisher.Mono;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +19,7 @@ public class CartService {
      * @return - cart if it exists, error otherwise.
      */
     
-    public Cart findCartById(String cartId) {
+    public Mono<Cart> findCartById(String cartId) {
         return cartDao.findCartById(cartId);
     }
 

@@ -4,6 +4,8 @@ import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.cart.Cart;
 import com.commercetools.api.models.cart.CartDraft;
 
+import reactor.core.publisher.Mono;
+
 import org.springframework.stereotype.Component;
 @Component
 public class CartDao {
@@ -11,13 +13,13 @@ public class CartDao {
     /**
      * Makes a GET request using the Commercetools API.
      * @param cartId - cart ID of the cart we want information out of.
-     * @return either the cart information or an error.
+     * @return either a Mono containing the cart information or an error.
      */
 
-    public Cart findCartById(String cartId) {
+    public Mono<Cart> findCartById(String cartId) {
         ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
 
-        return apiRoot.carts().withId(cartId).get().executeBlocking().getBody();
+        return Mono.just(apiRoot.carts().withId(cartId).get().executeBlocking().getBody());
     }
 
     /**
