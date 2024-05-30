@@ -8,31 +8,29 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-public class CartRetrievalTests {
+public class RestAssuredCartRetrievalTests {
     @Test
 	void getExistingCart() throws Exception {
-		String validCartId = "0cf86224-25f2-4e30-af5c-d91602a4f6bd";
 		RestAssured.baseURI = TestConstants.ENDPOINT_URL;
 
 		RequestSpecification request = RestAssured.given();
 		
-		Response response = request.get("/" + validCartId); 
+		Response response = request.get("/" + TestConstants.VALID_CART_ID); 
 		int statusCode = response.getStatusCode(); 
 
 		assertThat(statusCode).isEqualTo(200);
 
 		String bodyString = response.getBody().asString();
-		assertThat(bodyString).contains("0cf86224-25f2-4e30-af5c-d91602a4f6bd");
+		assertThat(bodyString).contains(TestConstants.VALID_CART_ID);
 	}
 
 	@Test 
 	void getNonExistentCart() throws Exception {
-		String invalidCartId = "0cf86224-25f2-4e30-af5c-d91602a4f6b";
 		RestAssured.baseURI = TestConstants.ENDPOINT_URL;
 
 		RequestSpecification request = RestAssured.given();
 		
-		Response response = request.get("/" + invalidCartId); 
+		Response response = request.get("/" + TestConstants.INVALID_CART_ID); 
 		int statusCode = response.getStatusCode(); 
 
 		assertThat(statusCode).isEqualTo(404);

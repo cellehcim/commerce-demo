@@ -13,7 +13,7 @@ import io.restassured.specification.RequestSpecification;
 import org.json.JSONArray;
 
 @SpringBootTest
-class CartCreationTests {
+class RestAssuredCartCreationTests {
 
 	@Test
 	void createEmptyCartWithoutParameters() throws Exception {
