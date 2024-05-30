@@ -37,11 +37,11 @@ public class CartController {
     /**
      * Creates a cart object given a country code, currency code, and line item information.
      * @param cartDetails - response body containing our cart creation information.
-     * @return - cart information if we can successfully create the corresponding cart, error if otherwise.
+     * @return cart information if we can successfully create the corresponding cart Mono, error if otherwise.
      */
 
     @PostMapping()
-    public Cart createCart(@Valid @RequestBody CartDetails cartDetails) {
+    public Mono<Cart> createCart(@Valid @RequestBody CartDetails cartDetails) {
         return cartService.createCart(cartDetails);
     }
 }

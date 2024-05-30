@@ -25,10 +25,10 @@ public class CartDao {
     /**
      * Makes a POST request to create an empty cart.
      * @param cartDetails - cart details containing a currency code and country code.
-     * @return an empty cart with the specified currency code and country code.
+     * @return a Mono emitting an empty cart with the specified currency code and country code.
      */
 
-    public Cart createEmptyCart(CartDetails cartDetails) {
+    public Mono<Cart> createEmptyCart(CartDetails cartDetails) {
         ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
         CartDraft newCartDraft = CartHelperMethods.createCartDraftObject(apiRoot, cartDetails, false);
 
@@ -39,10 +39,10 @@ public class CartDao {
      * Makes a POST request to create an empty cart.
      * @param lineItemArrayList - arraylist containing the list of line items to include in the cart.
      * @param cartDetails - cart details containing a currency code, country code.
-     * @return a cart with the specified currency code, country code, and line items from the array.
+     * @return a Mono emitting a cart with the specified currency code, country code, and line items from the array.
      */
 
-    public Cart createCartWithLineItems(CartDetails cartDetails) throws RuntimeException {
+    public Mono<Cart> createCartWithLineItems(CartDetails cartDetails) throws RuntimeException {
         ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
         CartDraft newCartDraft = CartHelperMethods.createCartDraftObject(apiRoot, cartDetails, true);
 
@@ -52,10 +52,10 @@ public class CartDao {
     /**
      * Makes a POST request to create an empty cart out of a given cart draft.
      * @param cartDraft - cart draft that we want to create a cart out of.
-     * @return a cart object made from the cart draft's information.
+     * @return a Mono emitting a cart object made from the cart draft's information.
      */
 
-    public static Cart createCartObject(ProjectApiRoot apiRoot, CartDraft cartDraft) {
-        return apiRoot.carts().post(cartDraft).executeBlocking().getBody();
+    public static Mono<Cart> createCartObject(ProjectApiRoot apiRoot, CartDraft cartDraft) {
+        return Mono.just(apiRoot.carts().post(cartDraft).executeBlocking().getBody());
     }
 }

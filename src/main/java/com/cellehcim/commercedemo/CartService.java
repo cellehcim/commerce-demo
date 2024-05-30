@@ -16,7 +16,7 @@ public class CartService {
     /**
      * Returns cart information for a given Commercetools cart ID.
      * @param cartId - ID of the cart that we want information from.
-     * @return - cart if it exists, error otherwise.
+     * @return A Mono emitting the corresponding cart (and its infirmation) if it exists, error otherwise.
      */
     
     public Mono<Cart> findCartById(String cartId) {
@@ -24,12 +24,12 @@ public class CartService {
     }
 
     /**
-     * Creates a cart given its country code, currency code, and if applicable, list of SKUs.
+     * Creates a cart given its country code, currency code, and if applicable, list of line item details.
      * @param cartDetails - information for the cart that we want to create.
-     * @return - a cart with line items if the corresponding list of SKUs was provided, an empty cart if otherwise.
+     * @return A Mono emitting a cart object made from its request information.
      */
 
-    public Cart createCart(CartDetails cartDetails) {
+    public Mono<Cart> createCart(CartDetails cartDetails) {
 
         if (cartDetails.getLineItems() != null) {
 
