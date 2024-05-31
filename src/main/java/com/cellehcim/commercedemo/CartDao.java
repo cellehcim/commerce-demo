@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class CartDao {
 
+    private final long CURRENT_VERSION = 1l;
+
     /**
      * Makes a GET request using the Commercetools API.
      * @param cartId - cart ID of the cart we want information out of.
@@ -47,6 +49,17 @@ public class CartDao {
         CartDraft newCartDraft = CartHelperMethods.createCartDraftObject(apiRoot, cartDetails, true);
 
         return createCartObject(apiRoot, newCartDraft);
+    }
+
+    /**
+     * Makes a request to delete a cart given its ID.
+     * @param cartId the to-be-deleted cart's ID
+     * @return a Mono emitting the now-deleted cart, or an error if given an ID for a non-existent cart.
+     */
+    
+    public Mono<Cart> deleteCart(String cartId) {
+        ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
+        return Mono.just(apiRoot.carts().withId(cartId).delete().withVersion(CURRENT_VERSION).executeBlocking().getBody());
     }
 
     /**

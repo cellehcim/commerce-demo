@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import reactor.core.publisher.Mono;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,5 +44,15 @@ public class CartController {
     @PostMapping()
     public Mono<Cart> createCart(@Valid @RequestBody CartDetails cartDetails) {
         return cartService.createCart(cartDetails);
+    }
+
+    /**
+     * Deletes a cart object given its cart ID
+     * @param cartID ID of the cart to delete
+     * @return a Mono of the now-deleted cart, error otherwise.
+     */
+    @DeleteMapping("/{cartId}")
+    public Mono<Cart> deleteCart(@PathVariable String cartId) {
+        return cartService.deleteCart(cartId);
     }
 }

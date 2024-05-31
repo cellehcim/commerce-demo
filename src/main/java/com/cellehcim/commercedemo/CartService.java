@@ -42,4 +42,12 @@ public class CartService {
             return cartDao.createEmptyCart(cartDetails);
         }
     }
+    /**
+     * Deletes a cart object given its cart ID
+     * @param cartID ID of the cart to delete
+     * @return a Mono of the now-deleted cart, error otherwise.
+     */
+    public Mono<Cart> deleteCart(String cartId) {
+        return cartDao.deleteCart(cartId);
+    }
 }
