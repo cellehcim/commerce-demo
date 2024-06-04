@@ -31,7 +31,7 @@ public class CartController {
      */
 
     @GetMapping("/{cartId}")
-    public Mono<Cart> findCartById(@PathVariable String cartId) {
+    public Mono<Cart> findCartById(@PathVariable("cartId") String cartId) {
         return cartService.findCartById(cartId);
     }
 

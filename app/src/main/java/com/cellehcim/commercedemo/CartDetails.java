@@ -4,24 +4,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.commercetools.api.models.cart.LineItemDraft;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class CartDetails {
 
     @NotNull(message = "The country code must be included as a two-digit ISO 3166-1 alpha-2 country code")
     @NotBlank(message = "The country code must be included as a two-digit ISO 3166-1 alpha-2 country code")
     @Size(min = 2, max = 2, message = "The country code must be exactly two digits")
+    @JsonProperty("countryCode")
     private String countryCode;
 
     @NotNull(message = "The currency code must be included as a three-digit ISO 4217 currency code")
     @NotBlank(message = "The currency code must be included as a three-digit ISO 4217 currency code")
     @Size(min = 3, max = 3, message = "The currency code must be exactly three-digits")
+    @JsonProperty("currency")
     private String currency;
+
+    @JsonProperty("lineItemDetails")
     private List<LineItemDraft> lineItems;
+
+    public CartDetails() {}
 
     public CartDetails(String countryCode, String currency, @Valid List<LineItemDetail> lineItemDetails) {
         this.countryCode = countryCode.toUpperCase();
