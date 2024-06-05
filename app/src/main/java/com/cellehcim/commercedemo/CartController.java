@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import reactor.core.publisher.Mono;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,7 +43,7 @@ public class CartController {
      */
 
     @PostMapping()
-    public Mono<Cart> createCart(@Valid @RequestBody CartDetails cartDetails) {
+    public Mono<Cart> createCart(@RequestBody CartDetails cartDetails) {
         return cartService.createCart(cartDetails);
     }
 

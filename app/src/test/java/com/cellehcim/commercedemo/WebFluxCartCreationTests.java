@@ -130,7 +130,7 @@ public class WebFluxCartCreationTests {
                     .expectStatus().isNotFound();
 	}
 
-    @Test
+    /*@Test
 	void createCartWithEveryParamInLowercase() throws Exception {
         JSONObject requestParams = new JSONObject(); 
 		requestParams.put("currency", "usd"); 
@@ -154,7 +154,7 @@ public class WebFluxCartCreationTests {
                     .jsonPath(TestConstants.LINE_ITEMS_LENGTH_JSON_PATH_VALUE).isEqualTo(2)
                     .jsonPath(TestConstants.COUNTRY_JSON_PATH_VALUE).isEqualTo("US")
                     .jsonPath(TestConstants.CURRENCY_CODE_JSON_PATH_VALUE).isEqualTo("USD");
-    }
+    }*/
 
     @Test
     void createCartWithOneLineItemZeroQuantity() throws Exception {

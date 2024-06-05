@@ -9,15 +9,15 @@ import jakarta.validation.constraints.NotNull;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class LineItemDetail {
-    @NotNull(message = "The SKU must be included")
-    @NotBlank(message = "The SKU must be included")
+    /*@NotNull(message = "The SKU must be included")
+    @NotBlank(message = "The SKU must be included")*/
     @JsonProperty("sku")
     private String sku;
 
-    @NotNull(message = "The quantity must be included")
+    /*@NotNull(message = "The quantity must be included")
     @NotBlank(message = "The quantity must be included")
     @Min(message = "Line item quantity must be greater than zero", value = 1)
-    @JsonProperty("quantity")
+    @JsonProperty("quantity")*/
     private Long quantity;
 
     public LineItemDetail() {}

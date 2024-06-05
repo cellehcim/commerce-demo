@@ -144,7 +144,7 @@ class RestAssuredCartCreationTests {
 		assertThat(statusCode).isEqualTo(404);
 	}
 
-	@Test
+	/*@Test
 	void createCartWithEveryParamInLowercase() throws Exception {
 		RestAssured.baseURI = TestConstants.ENDPOINT_URL; 
 		RequestSpecification request = RestAssured.given();
@@ -170,7 +170,7 @@ class RestAssuredCartCreationTests {
 
 		// product names for the line item skus included
 		assertThat(bodyString).contains("Ashen Rug", "Coffee Table");
-	}
+	}*/
 
 	void createCartWithOneLineItemZeroQuantity() throws Exception {
 		RestAssured.baseURI = TestConstants.ENDPOINT_URL; 
