@@ -3,7 +3,6 @@ package com.cellehcim.commercedemo;
 import com.commercetools.api.client.ProjectApiRoot;
 import com.commercetools.api.models.cart.Cart;
 import com.commercetools.api.models.cart.CartDraft;
-
 import reactor.core.publisher.Mono;
 
 import org.springframework.stereotype.Component;
@@ -11,6 +10,11 @@ import org.springframework.stereotype.Component;
 public class CartDao {
 
     private final long CURRENT_VERSION = 1l;
+    private ProjectApiRoot apiRoot;
+
+    public CartDao() {
+        apiRoot = CartHelperMethods.createApiClient();
+    }
 
     /**
      * Makes a GET request using the Commercetools API.
@@ -19,8 +23,6 @@ public class CartDao {
      */
 
     public Mono<Cart> findCartById(String cartId) {
-        ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
-
         return Mono.just(apiRoot.carts().withId(cartId).get().executeBlocking().getBody());
     }
 
@@ -31,10 +33,9 @@ public class CartDao {
      */
 
     public Mono<Cart> createEmptyCart(CartDetails cartDetails) {
-        ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
         CartDraft newCartDraft = CartHelperMethods.createCartDraftObject(apiRoot, cartDetails, false);
 
-        return createCartObject(apiRoot, newCartDraft);
+        return createCartObject(newCartDraft);
      }
 
     /**
@@ -45,10 +46,9 @@ public class CartDao {
      */
 
     public Mono<Cart> createCartWithLineItems(CartDetails cartDetails) throws RuntimeException {
-        ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
         CartDraft newCartDraft = CartHelperMethods.createCartDraftObject(apiRoot, cartDetails, true);
 
-        return createCartObject(apiRoot, newCartDraft);
+        return createCartObject(newCartDraft);
     }
 
     /**
@@ -58,7 +58,6 @@ public class CartDao {
      */
     
     public Mono<Cart> deleteCart(String cartId) {
-        ProjectApiRoot apiRoot = CartHelperMethods.createApiClient();
         return Mono.just(apiRoot.carts().withId(cartId).delete().withVersion(CURRENT_VERSION).executeBlocking().getBody());
     }
 
@@ -68,7 +67,7 @@ public class CartDao {
      * @return a Mono emitting a cart object made from the cart draft's information.
      */
 
-    public static Mono<Cart> createCartObject(ProjectApiRoot apiRoot, CartDraft cartDraft) {
+    public Mono<Cart> createCartObject(CartDraft cartDraft) {
         return Mono.just(apiRoot.carts().post(cartDraft).executeBlocking().getBody());
     }
 }
